@@ -1,0 +1,56 @@
+This folders contains the scripts, evaluation keys and system answers for the SemEval-2010 Word Sense Induction task.
+Contents:
+
+- unsup_eval . This folder contains:
+	- fscore.jar: evaluation script for the unsupervised evaluation with FScore
+	- vmeasure.jar: evaluation script for the unsupervised evaluation with VMeasure
+	- instructions.txt: Instructions on how to perform the evaluation using the evaluation scripts.
+	- keys: a folder that contains:
+		- all.key, The file containing the GS solutions for all target words.
+	- baselines: A folder that contains 7 baselines for all target words :
+		- mfs_all.key: The 1 cluster per word baseline (or Most Frequent Sense baseline)
+		- random1.key, random2.key, random3.key, random4.key, random5.key: Random clustering keys.
+		- 1cl1inst.key: The 1 cluster per instance baseline.
+
+- sup_eval . This folder contains:
+	- instructions.txt: Instructions on how to perform the evaluation using the evaluation scripts.	
+
+	- 80_20 : a folder that contains the 80/20 split data (80% mapping, 20% testing):
+		- nouns: a folder that contains:
+			- mapping.nouns.1.key, mapping.nouns.2.key, mapping.nouns.3.key,mapping.nouns.4.key, mapping.nouns.5.key: The 5 five mapping corpora used during the supervised evaluation for nouns.
+			- test.nouns.1.key, test.nouns.2.key, test.nouns.3.key, test.nouns.4.key, test.nouns.5.key:  The 5 five test corpora used during the supervised evaluation for nouns.
+		- verbs: a folder that contains:
+			- mapping.verbs.1.key, mapping.verbs.2.key, mapping.verbs.3.key,mapping.verbs.4.key, mapping.verbs.5.key: The 5 five mapping corpora used during the supervised evaluation for verbs.
+			- test.verbs.1.key, test.verbs.2.key, test.verbs.3.key, test.verbs.4.key, test.verbs.5.key:  The 5 five test corpora used during the supervised evaluation for verbs.
+		- all: a folder that contains:
+			- mapping.all.1.key, mapping.all.2.key, mapping.all.3.key,mapping.all.4.key, mapping.all.5.key: The 5 five mapping corpora used during the supervised evaluation for all words.
+			- test.all.1.key, test.all.2.key, test.all.3.key, test.all.4.key, test.all.5.key:  The 5 five test corpora used during the supervised evaluation for all words.
+
+	- 60_40 : a folder that contains the 60/40 split data (60% mapping, 40% testing):
+		- nouns: a folder that contains:
+			- mapping.nouns.1.key, mapping.nouns.2.key, mapping.nouns.3.key,mapping.nouns.4.key, mapping.nouns.5.key: The 5 five mapping corpora used during the supervised evaluation for nouns.
+			- test.nouns.1.key, test.nouns.2.key, test.nouns.3.key, test.nouns.4.key, test.nouns.5.key:  The 5 five test corpora used during the supervised evaluation for nouns.
+		- verbs: a folder that contains:
+			- mapping.verbs.1.key, mapping.verbs.2.key, mapping.verbs.3.key,mapping.verbs.4.key, mapping.verbs.5.key: The 5 five mapping corpora used during the supervised evaluation for verbs.
+			- test.verbs.1.key, test.verbs.2.key, test.verbs.3.key, test.verbs.4.key, test.verbs.5.key:  The 5 five test corpora used during the supervised evaluation for verbs.
+		- all: a folder that contains:
+			- mapping.all.1.key, mapping.all.2.key, mapping.all.3.key,mapping.all.4.key, mapping.all.5.key: The 5 five mapping corpora used during the supervised evaluation for all words.
+			- test.all.1.key, test.all.2.key, test.all.3.key, test.all.4.key, test.all.5.key:  The 5 five test corpora used during the supervised evaluation for all words.
+		- baselines: A folder that contains 6 baselines for all target words :
+		- mfs_all.key: The 1 cluster per word baseline (or Most Frequent Sense baseline)
+		- random1.key, random2.key, random3.key, random4.key, random5.key: Random clustering keys.
+	
+	- scripts: a folder that contains the SemEval-2007 scripts for performing the supervised evaluation:
+		- 60_40, A folder that contains the answer keys (for the 5 testing corpora) for each participating system in the 60-40 split.
+		- 80_20, A folder that contains the answer keys (for the 5 testing corpora) for each participating system in the 80-20 split.
+		- scorer2, The executable used for performing the WSD evaluation (called from sup_eval.sh).
+		- scorer2.c, Source code scorer2.
+		- create_supervised_keyfile.pl, The script for doing the mapping and the tagging of the test instances.
+		- fill_unanswered_instances.pl, The script for handling unanswered instances.
+		- sup_eval.sh The script for performing the mapping and the WSD evaluation.
+
+- systems . This folders contains:
+	- The system's answers as submitted to the competition.
+	- filesToSystemsMap: A file containing the mapping of file names to systems names as they appear in the description paper	
+
+	

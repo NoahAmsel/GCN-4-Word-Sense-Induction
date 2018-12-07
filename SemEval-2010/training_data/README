@@ -1,0 +1,126 @@
+This document describes the training data release for the SemEval-2010 Task #14: Word Sense Induction & Disambiguation Task. 
+
+
+The top level folder, i.e. <training_data> contains two subfolders:
+
+a.) <verbs> - This folder contains 50 xml files. Each xml file consists of a set of instances of a polysemous target verb. 
+The following table shows the target verbs and the number of instances for each one. 
+
+=========================
+Lemma.POS	Instances
+=========================
+divide.v	4215
+cultivate.v	3237
+reap.v		729
+reveal.v	989
+stick.v		3102
+weigh.v		8758
+shave.v		3657
+swear.v		5374
+cheat.v		5017
+frame.v		2990
+assemble.v	1307
+owe.v		4251
+presume.v	1015
+apply.v		4587
+bow.v		2224
+figure.v	2807
+introduce.v	3282
+straighten.v	2892
+operate.v	1484
+pour.v		3663
+separate.v	834
+analyze.v	1086
+haunt.v		5133
+swim.v		2365
+wait.v		6670
+assert.v	2868
+deny.v		2773
+expose.v	1930
+violate.v	2174
+relax.v		2842
+accommodate.v	2422
+insist.v	2681
+happen.v	11286
+defend.v	3586
+appeal.v	3281
+level.v		1957
+root.v		6018
+sniff.v		2538
+lay.v		4135
+observe.v	5728
+conclude.v	2632
+deploy.v	2188
+lie.v		5790
+slow.v		1552
+question.v	2126
+pursue.v	1047
+regain.v	266
+commit.v	3876
+mount.v		3321
+signal.v	2177
+=========================
+
+
+b.) nouns - This folder contains 50 xml files. Each xml file consists of a set of instances of a polysemous target noun. 
+The following table shows the target nouns and the number of instances for each one. 
+
+=========================
+Lemma.POS	Instances
+=========================
+margin.n	8994
+promotion.n	5543
+display.n	7499
+function.n	13588
+house.n		32723
+challenge.n	5054
+movement.n	25945
+mark.n		22946
+television.n	10790
+gap.n		7931
+flight.n	19629
+air.n		23304
+speed.n		11656
+gas.n		25954
+failure.n	10328
+entry.n		5625
+office.n	12874
+market.n	13715
+reputation.n	4619
+commission.n	20929
+community.n	14570
+access.n	11065
+park.n		19844
+chip.n		16498
+innovation.n	7009
+moment.n	9215
+legislation.n	2609
+cell.n		33690
+threat.n	3970
+address.n	7540
+body.n		28835
+note.n		15106
+origin.n	9120
+tour.n		6933
+foundation.n	12567
+camp.n		22464
+accounting.n	16516
+shape.n		8093
+mind.n		22749
+idea.n		11164
+road.n		9902
+guarantee.n	3190
+campaign.n	8620
+dealer.n	8828
+screen.n	17342
+edge.n		7885
+field.n		34274
+class.n		22039
+rally.n		6831
+officer.n	28831
+=========================
+
+
+Participants are required to use only the set of instances provided in each xml file, in order to learn the senses of a target noun or verb. No other resources are allowed. This policy is used in order ensure an objective and fair evaluation of the different methods. However, all NLP components for morphology and syntax that have been built using supervised/unsupervised methods will be allowed. The restriction only applies to data used for acquiring the word senses.
+
+The training data were collected using the web, hence they were highly noisy. Organisers devoted an extensive effort to remove that noise. However, there might still exist some noise in the text. Should you have a query please post it to our Google groups pages: http://groups.google.co.uk/group/semeval2010-senseinduction/

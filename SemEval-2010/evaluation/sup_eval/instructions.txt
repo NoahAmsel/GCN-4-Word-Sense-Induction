@@ -1,0 +1,27 @@
+Usage:
+> cd scripts
+> sup_eval.sh <System Key> outDir [mapping.key] [evaluation.key]
+
+
+Examples for the 80-20 split (80\% mapping, 20% evaluation):
+
+For all:
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/all/mapping.1.key ../80_20/all/test.1.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/all/mapping.2.key ../80_20/all/test.2.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/all/mapping.3.key ../80_20/all/test.3.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/all/mapping.4.key ../80_20/all/test.4.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/all/mapping.5.key ../80_20/all/test.5.key .
+
+For nouns:
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/nouns/mapping.nouns.1.key ../80_20/nouns/test.nouns.1.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/nouns/mapping.nouns.2.key ../80_20/nouns/test.nouns.2.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/nouns/mapping.nouns.3.key ../80_20/nouns/test.nouns.3.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/nouns/mapping.nouns.4.key ../80_20/nouns/test.nouns.4.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/nouns/mapping.nouns.5.key ../80_20/nouns/test.nouns.5.key 
+
+For verbs:
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/verbs/mapping.verbs.1.key ../80_20/verbs/test.verbs.1.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/verbs/mapping.verbs.2.key ../80_20/verbs/test.verbs.2.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/verbs/mapping.verbs.3.key ../80_20/verbs/test.verbs.3.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/verbs/mapping.verbs.4.key ../80_20/verbs/test.verbs.4.key 
+./sup_eval.sh ../baselines/mfs_all.key . ../80_20/verbs/mapping.verbs.5.key ../80_20/verbs/test.verbs.5.key 

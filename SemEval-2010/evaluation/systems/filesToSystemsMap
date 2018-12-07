@@ -1,0 +1,28 @@
+SystemID	System Name		Uploaded file
+319		UoY			39-319_Disamb.solution.10.0.10.0.4.0.80
+511		KCDC-GD			173-511_kcdc-gp.txt
+512		KCDC-GD-2		173-512_kcdc-gp-2.txt
+516		KCDC-PT			173-516_kcdc-pt.txt
+517		KCDC-PC			173-517_kcdc-pc.txt
+530		KCDC-PCGD		173-530_kcdc-pcgp.txt
+536		KCDC-PC-2		173-536_kcdc-pc-2.txt.gz
+558		KCDC-GDC		173-558_kcdc-gpc.txt.gz
+108		Hermit			302-108_senseval-gap.key
+408		Duluth-WSI		380-408_duluth-wsi-testdata-pk2-new.txt
+513		Duluth-WSI-Co		380-513_duluth-wsi-testdata-co-pk2.txt
+514		Duluth-WSI-SVD		380-514_duluth-wsi-testdata-svd-300-pk2.txt
+518		Duluth-WSI-SVD-Gap	380-518_duluth-wsi-testdata-svd-300-gap.txt
+519		Duluth-WSI-Co-Gap	380-519_duluth-wsi-testdata-co-gap.txt
+520		Duluth-WSI-Gap		380-520_duluth-wsi-testdata-gap.txt
+521		Duluth-R-12		380-521_duluth-wsi-testdata-r12.txt
+522		Duluth-R-13		380-522_duluth-wsi-testdata-r13.txt
+523		Duluth-R-15		380-523_duluth-wsi-testdata-r15.txt
+524		Duluth-R-110		380-524_duluth-wsi-testdata-r110.txt
+617		Duluth-MIX-PK2		380-617_duluth-mix-pk2.txt
+618		Duluth-Mix-Gap		380-618_duluth-mix-gap.txt
+620		Duluth-Mix-Narrow-PK2	380-620_duluth-mix-narrow-pk2.txt
+622		Duluth-Mix-Narrow-Gap	380-622_duluth-mix-narrow-gap.txt
+624		Duluth-Mix-Uni-PK2	380-624_duluth-mix-uni-pk2.txt
+625		Duluth-Mix-Uni-Gap	380-625_duluth-mix-uni-gap.txt
+186		KSU KDD			402-186_task14_ksu.key
+
