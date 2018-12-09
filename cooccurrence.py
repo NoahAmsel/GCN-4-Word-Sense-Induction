@@ -14,6 +14,7 @@ class Cooccurrence():
         self.n_sentences = 0
         self.target_ratio = 1
         self.filename = "dumps/cooccurrence.pkl"
+        self.stemmer = nltk.stem.porter.SnowballStemmer("english")
 
     def load(self):
         with open(self.filename, 'rb') as f:
@@ -40,11 +41,14 @@ class Cooccurrence():
         for sentence_tag in soup.body.contents[0].contents:
             self.process_sentence(sentence_tag.text)
 
-    def process_sentence(self, sent):
+    def process_sentence(self, sent, stem=False):
         # should we encode to ascii? get errors using str(sent) ...
         # LEMMATIZE??
         # STOPWORDS?
-        word_bag = [w for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
+        if stem:
+            word_bag = [self.stemmer.stem(w) for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
+        else:
+            word_bag = [w for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
         # remove duplicates. sort b/c key-pairs in all_words must have consistent order
         word_bag = list(set(word_bag))
         word_bag.sort()
