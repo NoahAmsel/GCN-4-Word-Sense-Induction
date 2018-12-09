@@ -2,7 +2,8 @@ import os
 
 class Induce():
     def node2vec(input, output):
-        node2vec_path = "../snap/examples/node2vec/node2vec"
+        #node2vec_path = "../snap/examples/node2vec/node2vec"
+        node2vec_path = "../veles/snap/examples/veles/veles"
         dims = 128
         walklength = 10
         walkspersource = 10
@@ -41,7 +42,7 @@ class Induce():
         return embeds, word2ix
 
     def induce_word(word, targets2edges):
-
+        pass
 
 if __name__ == "__main__":
     node2vec("dumps/sun1am", "dumps/sun3am.embeddings")
