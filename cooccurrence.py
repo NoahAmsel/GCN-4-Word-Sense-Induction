@@ -13,6 +13,11 @@ class Cooccurrence():
         self.n_sentences = 0
         self.target_ratio = 1
 
+    def read2010train(self):
+        for folder in ["SemEval-2010/training_data/nouns", "SemEval-2010/training_data/verbs"]:
+            for file in os.listdir(folder):
+                self.read2010file(folder+file)
+
     def read2010file(self, path):
         with open(path) as fp:
             soup = BeautifulSoup(fp, "html5lib")
@@ -22,6 +27,7 @@ class Cooccurrence():
     def process_sentence(self, sent):
         # should we encode to ascii? get errors using str(sent) ...
         # LEMMATIZE??
+        # STOPWORDS?
         word_bag = [w for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
         # remove duplicates. sort b/c key-pairs in all_words must have consistent order
         word_bag = list(set(word_bag))
@@ -35,26 +41,26 @@ class Cooccurrence():
         self.good_words = set(good_words)
         self.word2ix = {k: v for v, k in enumerate(good_words)}
 
-        self.pmi = {}
+        self.pmi_mat = {}
         lgn = np.log(self.n_sentences)
         for key, val in self.pairs.iteritems():
             if key[0] in self.good_words and key[1] in self.good_words:
                 #reverse_key = (keys[1], keys[0])
                 both_count = val #+ self.pairs[reverse_key]
                 pmi = np.log(both_count) - np.log(self.wordcounts[key[0]]) - np.log(self.wordcounts[key[1]]) + lgn
-                #self.pmi[reverse_key] = self.pmi[key]
+                #self.pmi_mat[reverse_key] = self.pmi_mat[key]
 
                 if pmi > thresh:
                     if key[0] in expand or key[1] in expand:
                         edgelabel = key[0]+"_"+key[1]
-                        self.pmi[(key[0],edgelabel)] = pmi
-                        self.pmi[(edgelabel,key[1])] = pmi
+                        self.pmi_mat[(key[0],edgelabel)] = pmi
+                        self.pmi_mat[(edgelabel,key[1])] = pmi
                     else:
-                        self.pmi[key] = pmi
+                        self.pmi_mat[key] = pmi
 
     def write(self, graph_file):
         with open(graph_file, "w") as out:
-            for key, val in self.pmi.iteritems():
+            for key, val in self.pmi_mat.iteritems():
                 out.write("{0} {1} {2}\n".format(self.word2ix[key[0]], self.word2ix[key[1]], val))
 
         with open(graph_file+"_labels", "w") as out:
