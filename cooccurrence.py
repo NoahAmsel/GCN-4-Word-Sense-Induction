@@ -14,9 +14,12 @@ class Cooccurrence():
         self.target_ratio = 1
 
     def read2010train(self):
+        self.targets = []
         for folder in ["SemEval-2010/training_data/nouns", "SemEval-2010/training_data/verbs"]:
             for file in os.listdir(folder):
-                self.read2010file(folder+file)
+                #self.read2010file(folder+file)
+                self.targets.append(file.split(".")[0])
+                print(file)
 
     def read2010file(self, path):
         with open(path) as fp:
@@ -36,7 +39,7 @@ class Cooccurrence():
         self.pairs.update(itertools.combinations(word_bag,2))
         self.n_sentences += 1
 
-    def pmi(self, n=10000, thresh=np.log(2), expand=[]):
+    def make_pmi(self, n=10000, thresh=np.log(2), expand=[]):
         good_words, _ = zip(*self.wordcounts.most_common(n))
         self.good_words = set(good_words)
         self.word2ix = {k: v for v, k in enumerate(good_words)}
@@ -68,4 +71,7 @@ class Cooccurrence():
                 out.write("{0} {1}\n".format(ix, word))
 
 if __name__ == "__main__":
-    pass
+    co = Cooccurrence()
+    co.read2010train()
+    co.make_pmi(n=20000, expand=self.targets)
+    co.write("dumps/sun1am")
