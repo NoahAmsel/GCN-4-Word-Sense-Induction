@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import nltk
 import os
-from collections import Counter
+import cPickle
+from collections import Counter, defaultdict
 import itertools
 import numpy as np
 
@@ -12,6 +13,16 @@ class Cooccurrence():
         self.pairs = Counter()
         self.n_sentences = 0
         self.target_ratio = 1
+        self.filename = "dumps/cooccurrence.pkl"
+
+    def load(self):
+        with open(self.filename, 'rb') as f:
+            tmp_dict = cPickle.load(f)
+        self.__dict__.update(tmp_dict)
+
+    def save(self):
+        with open(self.filename, 'wb') as f
+            cPickle.dump(self.__dict__, f, 2)
 
     def read2010train(self):
         self.targets = []
@@ -20,6 +31,8 @@ class Cooccurrence():
                 #self.read2010file(folder+file)
                 self.targets.append(file.split(".")[0])
                 print(file)
+            self.save()
+
 
     def read2010file(self, path):
         with open(path) as fp:
@@ -42,7 +55,8 @@ class Cooccurrence():
     def make_pmi(self, n=10000, thresh=np.log(2), expand=[]):
         good_words, _ = zip(*self.wordcounts.most_common(n))
         self.good_words = set(good_words)
-        self.word2ix = {k: v for v, k in enumerate(good_words)}
+        self.new_words = []
+        self.targets2edges = defaultdict(list)
 
         self.pmi_mat = {}
         lgn = np.log(self.n_sentences)
@@ -56,10 +70,18 @@ class Cooccurrence():
                 if pmi > thresh:
                     if key[0] in expand or key[1] in expand:
                         edgelabel = key[0]+"_"+key[1]
+                        self.new_words.append(edgelabel)
+                        if key[0] in expand:
+                            self.targets2edges[key[0]].append(key[1])
+                        if key[1] in expand:
+                            self.targets2edges[key[1]].append(key[0])
                         self.pmi_mat[(key[0],edgelabel)] = pmi
                         self.pmi_mat[(edgelabel,key[1])] = pmi
                     else:
                         self.pmi_mat[key] = pmi
+
+        self.word2ix = {k: v for v, k in enumerate(good_words+self.new_words)}
+        self.save()
 
     def write(self, graph_file):
         with open(graph_file, "w") as out:

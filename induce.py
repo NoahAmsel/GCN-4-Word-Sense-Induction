@@ -1,9 +1,7 @@
 import os
 
-def node2vec():
+def node2vec(input, output):
     node2vec_path = "../snap/examples/node2vec/node2vec"
-    input = "dumps/testgraph"
-    output = "dumps/embeddings"
     dims = 128
     walklength = 10
     walkspersource = 10
@@ -21,4 +19,27 @@ def node2vec():
     print(comm)
     status = os.system(comm)
 
-node2vec()
+emb_file = "/Users/noah/Documents/Junior/ANLP/Final/Code/snap/examples/node2vec/emb/karate.emb"
+labels = "temppp"
+def read_embs(emb_file, labels):
+    with open(emb_file, "r") as f:
+        line = f.readline()
+        words, dims = line.split()[:2]
+        embeds = np.zeros((int(words),int(dims)))
+        line = f.readline()
+        while line:
+            sp = line.split()
+            row = int(sp[0])
+            embeds[row,:] = [float(s) for s in sp[1:]]
+            line = f.readline()
+
+    word2ix = {}
+    with open(labels, "r") as f:
+        for line in f:
+            ix, word = line.split()[:2]
+            word2ix[word] = ix
+
+    return embeds, word2ix
+
+if __name__ == "__main__":
+    node2vec("dumps/sun1am", "dumps/sun3am.embeddings")
