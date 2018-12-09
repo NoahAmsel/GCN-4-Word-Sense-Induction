@@ -80,7 +80,7 @@ class Cooccurrence():
                     else:
                         self.pmi_mat[key] = pmi
 
-        self.word2ix = {k: v for v, k in enumerate(good_words+self.new_words)}
+        self.word2ix = {k: v for v, k in enumerate(list(good_words)+self.new_words)}
         self.save()
 
     def write(self, graph_file):
