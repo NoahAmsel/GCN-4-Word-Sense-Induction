@@ -21,14 +21,14 @@ class Cooccurrence():
         self.__dict__.update(tmp_dict)
 
     def save(self):
-        with open(self.filename, 'wb') as f
+        with open(self.filename, 'wb') as f:
             cPickle.dump(self.__dict__, f, 2)
 
     def read2010train(self):
         self.targets = []
-        for folder in ["SemEval-2010/training_data/nouns", "SemEval-2010/training_data/verbs"]:
+        for folder in ["SemEval-2010/training_data/nouns/", "SemEval-2010/training_data/verbs/"]:
             for file in os.listdir(folder):
-                #self.read2010file(folder+file)
+                self.read2010file(folder+file)
                 self.targets.append(file.split(".")[0])
                 print(file)
             self.save()
@@ -95,5 +95,5 @@ class Cooccurrence():
 if __name__ == "__main__":
     co = Cooccurrence()
     co.read2010train()
-    co.make_pmi(n=20000, expand=self.targets)
+    co.make_pmi(n=20000, expand=co.targets)
     co.write("dumps/sun1am")
