@@ -1,3 +1,8 @@
+## making the co-occurrence graph
+
+## node2vec
+for weighted graph, just make each line    a, b, weight
+
 ## datasets
 
 used in allen paper
