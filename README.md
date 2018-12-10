@@ -6,6 +6,16 @@ for weighted graph, just make each line    a, b, weight
 
 http://ltmaggie.informatik.uni-hamburg.de/jobimtext/documentation/sense-clustering/
 
+## graphsage
+the folder example_data shows what you have to have for it to run
+<train_prefix>-G.json
+from networkx.readwrite import json_graph
+json_graph.node_link_data(G_graph)
+
+class_map.json: one hot 
+
+walks: we have to provide them for unsupervised training
+
 ## datasets
 
 used in allen paper

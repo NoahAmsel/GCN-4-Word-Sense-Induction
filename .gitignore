@@ -1,3 +1,4 @@
 *.DS_Store
 *.tar
 dumps/*
+.remote-sync.json
