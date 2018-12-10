@@ -3,6 +3,9 @@
 ## node2vec
 for weighted graph, just make each line    a, b, weight
 
+
+http://ltmaggie.informatik.uni-hamburg.de/jobimtext/documentation/sense-clustering/
+
 ## datasets
 
 used in allen paper

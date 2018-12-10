@@ -1,6 +1,9 @@
 import os
 
 class Induce():
+    def __init__(params_file):
+
+
     def node2vec(input, output):
         #node2vec_path = "../snap/examples/node2vec/node2vec"
         node2vec_path = "../veles/snap/examples/veles/veles"

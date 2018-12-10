@@ -7,14 +7,14 @@ import itertools
 import numpy as np
 
 class Cooccurrence():
-    def __init__(self):
+    def __init__(self, savepatah):
         self.dictionary = set(nltk.corpus.words.words())
         self.wordcounts = Counter()
         self.pairs = Counter()
         self.n_sentences = 0
         self.target_ratio = 1
-        self.filename = "dumps/cooccurrence.pkl"
-        self.stemmer = nltk.stem.porter.SnowballStemmer("english")
+        self.filename = savepath
+        self.stemmer = nltk.stem.SnowballStemmer("english")
 
     def load(self):
         with open(self.filename, 'rb') as f:
@@ -40,6 +40,7 @@ class Cooccurrence():
             soup = BeautifulSoup(fp, "html5lib")
         for sentence_tag in soup.body.contents[0].contents:
             self.process_sentence(sentence_tag.text)
+        print(self.n_sentences+" processed sentences. Finished.")
 
     def process_sentence(self, sent, stem=False):
         # should we encode to ascii? get errors using str(sent) ...
@@ -57,7 +58,8 @@ class Cooccurrence():
         self.n_sentences += 1
 
     def make_pmi(self, n=10000, thresh=np.log(2), expand=[]):
-        good_words, _ = zip(*self.wordcounts.most_common(n))
+        self.topn = n
+        good_words, _ = zip(*self.wordcounts.most_common(self.topn))
         self.good_words = set(good_words)
         self.new_words = []
         self.targets2edges = defaultdict(list)
@@ -93,8 +95,19 @@ class Cooccurrence():
                 out.write("{0} {1} {2}\n".format(self.word2ix[key[0]], self.word2ix[key[1]], val))
 
         with open(graph_file+"_labels", "w") as out:
-            for ix, word in enumerate(self.good_words):
+            for word, ix in self.word2ix.iteritems():
                 out.write("{0} {1}\n".format(ix, word))
+
+        with open(graph_file+"_misc", "w") as out:
+            out.write("n_sentences:\t"+str(self.n_sentences)+"\n")
+            out.write("filename:\t"+str(self.filename)+"\n")
+            out.write("targets:\t"+str(self.targets)+"\n")
+            out.write("new_words:\t"+str(len(self.new_words))+"\n")
+
+        with open(graph_file+"_params", 'wb') as f:
+            cPickle.dump({"allwords":self.good_words,
+                          "targets": self.targets,
+                          "targets2edges": self.targets2edges}, f, 2)
 
 if __name__ == "__main__":
     co = Cooccurrence()
