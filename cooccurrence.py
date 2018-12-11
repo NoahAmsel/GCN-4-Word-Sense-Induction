@@ -8,9 +8,9 @@ import numpy as np
 import json
 
 class Cooccurrence():
-    def __init__(self, savepatah, stem=True):
+    stemmer = nltk.stem.SnowballStemmer("english")
+    def __init__(self, savepath, stem=False):
         self.dictionary = set(nltk.corpus.words.words())
-        self.stemmer = nltk.stem.SnowballStemmer("english")
 
         self.savepath = savepath
         self.stem=stem
@@ -37,6 +37,7 @@ class Cooccurrence():
                 self.targets.append(file.split(".")[0])
                 print(file)
             self.save()
+        print(str(self.n_sentences)+" processed sentences. Finished.")
 
 
     def read2010file(self, path):
@@ -44,7 +45,6 @@ class Cooccurrence():
             soup = BeautifulSoup(fp, "html5lib")
         for sentence_tag in soup.body.contents[0].contents:
             self.process_sentence(sentence_tag.text)
-        print(self.n_sentences+" processed sentences. Finished.")
 
     def process_sentence(self, sent):
         # should we encode to ascii? get errors using str(sent) ...
@@ -64,7 +64,7 @@ class Cooccurrence():
     def make_pmi(self, topn=10000, thresh=np.log(2), expand_thresh=None):
         self.topn = topn
         self.thresh = thresh
-        if self.expand_thresh is None:
+        if expand_thresh is None:
             self.expand_thresh = self.thresh
 
         good_words, _ = zip(*self.wordcounts.most_common(self.topn))
@@ -98,14 +98,14 @@ class Cooccurrence():
         self.save()
 
     def write_adj_list(self, graph_prefix):
-        with open(graph_prefix+"adjlist", "w") as out:
+        with open(graph_prefix+"_adjlist", "w") as out:
             for key, val in self.pmi_mat.iteritems():
                 out.write("{0} {1} {2}\n".format(self.node2ix[key[0]], self.node2ix[key[1]], val))
 
         with open(graph_prefix+"_labels", "w") as out:
             json.dump(self.node2ix, out)
 
-        with open(graph_file+"_params", 'wb') as out:
+        with open(graph_prefix+"_params", 'wb') as out:
             cPickle.dump({"good_words":self.good_words,
                           "targets": self.targets,
                           "targets2edges": self.targets2edges,
@@ -116,7 +116,7 @@ class Cooccurrence():
                           "savepath": self.savepath}, out, 2)
 
 if __name__ == "__main__":
-    co = Cooccurrence("dumps/monday_stemmed.pkl")
+    co = Cooccurrence("dumps/monday_unstemmed.pkl")
     co.read2010train()
-    co.make_pmi(n=20000)
-    co.write("dumps/monday_stemmed")
+    co.make_pmi(topn=20000)
+    co.write_adj_list("dumps/monday_unstemmed")
