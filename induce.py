@@ -4,6 +4,8 @@ import numpy as np
 import json
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import calinski_harabaz_score, silhouette_score
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn import preprocessing
 
 class Induce():
     def __init__(self, graph_prefix):
@@ -66,40 +68,50 @@ class Induce():
         with open(self.graph_prefix+"_labels", 'r') as f:
             self.node2ix = json.load(f)
 
-    def cluster(self, X, cluster_method, scorer, low=2, high=10):
-        centroids = None
-        labels = None
-        bestn = None
-        bestscore = -10000
+    def cluster(self, X, cluster_method, scorer, normalize=False, low=2, high=10):
+        if cluster_method == "affinity":
+            aff = AffinityPropagation(preference=0, affinity='precomputed').fit(cosine_similarity(X))
+            bestn = max(aff.labels_)+1
+            bestscore = scorer(X, clusterer.labels_)
+            print "\t", bestn, bestscore
+            labels = aff.labels_
+        else:
+            centroids = None
+            labels = None
+            bestn = None
+            bestscore = -10000
 
-        if cluster_method == "kmeans":
-            clusterer = KMeans(n_init=10, n_jobs=-1)
-        elif cluster_method == "ward":
-            clusterer = AgglomerativeClustering(linkage='ward')
-        elif cluster_method == "cos":
-            clusterer = AgglomerativeClustering(linkage='average', affinity='cosine')
+            if cluster_method == "kmeans":
+                clusterer = KMeans(n_init=10, n_jobs=-1)
+            elif cluster_method == "ward":
+                clusterer = AgglomerativeClustering(linkage='ward')
+            elif cluster_method == "cos":
+                clusterer = AgglomerativeClustering(linkage='average', affinity='cosine')
 
-        for n in range(low, high+1):
-            clusterer.n_clusters = n
-            clusterer.fit(X)
-            score = scorer(X, clusterer.labels_)
-            print "\t", n, score
-            if score > bestscore:
-                if cluster_method == "kmeans":
-                    centroids = clusterer.cluster_centers_
-                labels = clusterer.labels_
-                bestn = n
-                bestscore = score
+            for n in range(low, high+1):
+                clusterer.n_clusters = n
+                clusterer.fit(X)
+                score = scorer(X, clusterer.labels_)
+                print "\t", n, score
+                if score > bestscore:
+                    if cluster_method == "kmeans":
+                        centroids = clusterer.cluster_centers_
+                    labels = clusterer.labels_
+                    bestn = n
+                    bestscore = score
 
         if cluster_method != "kmeans":
             centroids = []
             for i in range(bestn):
-                centroids.append(X[labels==i,:].mean(axis=0))
+                clust = X[labels==i,:]
+                if normalize:
+                    clust = preprocessing.normalize(clust, axis=1)
+                centroids.append(clust.mean(axis=0))
             centroids = np.array(centroids)
 
         return centroids, bestscore, bestn
 
-    def induce_word(self, word, cluster_method, scorer):
+    def get_edge_embs(self, word):
         edgenode_ids = []
         for other in self.targets2edges[word]:
             if word <= other:
@@ -107,8 +119,7 @@ class Induce():
             else:
                 edgenode_ids.append(self.node2ix[other+"_"+word])
 
-        X = self.embeds[edgenode_ids]
-        return self.cluster(X, cluster_method, scorer)
+        return self.embeds[edgenode_ids]
 
     def induce_targets(self, cluster_method, scorer):
         '''
@@ -118,13 +129,31 @@ class Induce():
         '''
         target2senses = {}
         for t in self.targets:
-            centroids, bestscore, bestn = self.induce_word(t, cluster_method, scorer)
+            centroids, bestscore, bestn = self.cluster(self.get_edge_embs(t), cluster_method, scorer)
             print t, bestn, bestscore
             target2senses[t] = centroids
         self.target2senses = target2senses
         return target2senses
 
+
 if __name__ == "__main__":
+    """
+    ind = Induce("dumps/monday_unstemmed")
+    ind.read_embs()
+    # to get embedding of "word", use this
+    ind.embeds[ind.node2ix["word"]]
+    # to get a matrix of sense embeddings of "target", use:
+    target2senses = ind.induce_targets("kmeans", calinski_harabaz_score)
+    target2senses["target"]
+    # list of target words:
+    ind.targets
+    # list of all words
+    ind.good_words
+    # list of all words and newly minted word/edges
+    ind.node2ix.keys()
+    """
+
+
     ind = Induce("dumps/monday_unstemmed")
     #ind.node2vec()
     ind.read_embs()

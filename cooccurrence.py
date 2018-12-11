@@ -34,7 +34,10 @@ class Cooccurrence():
         for folder in ["SemEval-2010/training_data/nouns/", "SemEval-2010/training_data/verbs/"]:
             for file in os.listdir(folder):
                 self.read2010file(folder+file)
-                self.targets.append(file.split(".")[0])
+                if self.stem:
+                    self.targets.append(self.stemmer.stem(file.split(".")[0]))
+                else:
+                    self.targets.append(file.split(".")[0])
                 print(file)
             self.save()
         print(str(self.n_sentences)+" processed sentences. Finished.")
