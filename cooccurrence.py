@@ -7,8 +7,10 @@ import itertools
 import numpy as np
 import json
 
+lemmatizer = nltk.stem.WordNetLemmatizer()
+stemmer = nltk.stem.SnowballStemmer("english")
+
 class Cooccurrence():
-    stemmer = nltk.stem.SnowballStemmer("english")
     def __init__(self, savepath, stem=False):
         self.dictionary = set(nltk.corpus.words.words())
 
@@ -54,7 +56,7 @@ class Cooccurrence():
         # LEMMATIZE??
         # STOPWORDS?
         if self.stem:
-            word_bag = [self.stemmer.stem(w) for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
+            word_bag = [stemmer.stem(w) for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
         else:
             word_bag = [w for w in nltk.word_tokenize(sent.lower()) if w in self.dictionary]
         # remove duplicates. sort b/c key-pairs in all_words must have consistent order
@@ -64,7 +66,7 @@ class Cooccurrence():
         self.pairs.update(itertools.combinations(word_bag,2))
         self.n_sentences += 1
 
-    def make_pmi(self, topn=10000, thresh=np.log(2), expand_thresh=None):
+    def make_pmi(self, topn=20000, thresh=np.log(2), expand_thresh=None):
         self.topn = topn
         self.thresh = thresh
         if expand_thresh is None:
@@ -118,8 +120,23 @@ class Cooccurrence():
                           "expand_thresh": self.expand_thresh,
                           "savepath": self.savepath}, out, 2)
 
+
+
 if __name__ == "__main__":
+    """
+    This script reads the corpus, assembles the PMI matrix, and writes information
+    about the graph to disk. We make a three different graphs with different cutoff
+    parameters
+    """
+
     co = Cooccurrence("dumps/monday_unstemmed.pkl")
     co.read2010train()
+
     co.make_pmi(topn=20000)
     co.write_adj_list("dumps/monday_unstemmed")
+
+    co.make_pmi(topn=20000, thresh=np.log(4), expand_thresh=np.log(6))
+    co.write_adj_list('dumps/tuesday_unstemmed_BOTHhighthresh')
+
+    co.make_pmi(topn=40000, thresh=np.log(6), expand_thresh=np.log(9))
+    co.write_adj_list("dumps/tuesday_unstemmed_highN")

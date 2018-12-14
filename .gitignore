@@ -1,4 +1,8 @@
 *.DS_Store
 *.tar
+*.pyc
 dumps/*
+visualization_dmps/*
+glove/*
+sage-*/*
 .remote-sync.json

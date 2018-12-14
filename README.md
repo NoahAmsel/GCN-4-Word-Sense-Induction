@@ -1,41 +1,28 @@
-## making the co-occurrence graph
+# CACooN:
+## (Clustering Augmented Cooccurrence Network for word sense embeddings)
 
-## node2vec
-for weighted graph, just make each line    a, b, weight
+Hannah Lawrence & Noah Amsel
 
+This repository contains code for our final project in CPSC 667: Advanced Natural Language Processing.
 
-http://ltmaggie.informatik.uni-hamburg.de/jobimtext/documentation/sense-clustering/
+Each script contains a description inside its `main` function. Run
 
-## graphsage
-the folder example_data shows what you have to have for it to run
-<train_prefix>-G.json
-from networkx.readwrite import json_graph
-json_graph.node_link_data(G_graph)
+```
+python cooccurrence.py
+python sage.py
+python induce.py
+python evaluate.py
+```
 
-class_map.json: one hot 
+### Dependencies
+You'll need `nltk`, `networkx`, `numpy`, and possibly others.  
+The code uses node2vec and GraphSAGE. You will need to clone those repositories and place them in the same parent directory that this repository is in. (Note that we use the Veles implementation of node2vec due to the high memory requirements of the original version)
+```
+https://github.com/williamleif/GraphSAGE
+https://github.com/vid-koci/snap/tree/veles/examples/veles
+```
+For size reasons, some files can't be uploaded to GitHub:
+We use pretrained Glove embeddings, which are available for download [here](https://nlp.stanford.edu/projects/glove/). Put them in a folder inside this repository called `glove`.
+Finally, we use data from the SemEval-2010 task, available for download [here](https://www.cs.york.ac.uk/semeval2010_WSI/datasets.html). Put them in a folder called `SemEval-2010` with subfolders `evaluation`, `test_data`, and `training_data`,
 
-walks: we have to provide them for unsupervised training
-
-## datasets
-
-used in allen paper
-https://www.cs.york.ac.uk/semeval-2013/task13/
-
-used in russian paper (https://arxiv.org/pdf/1804.10686.pdf)
-https://www.cs.york.ac.uk/semeval2010_WSI/taskdescription.html
-The original SemEval 2010 Task 14 used the V-Measure ex- ternal clustering measure (Manandhar et al., 2010). How- ever, this measure is maximized by clustering each sentence into his own distinct cluster, i.e., a ‘dummy’ singleton base- line. This is achieved by the system deciding that every am- biguous word in every sentence corresponds to a different word sense. To cope with this issue, we follow a similar study (Lopukhin et al., 2017) and use instead of the ad- justed Rand index (ARI) proposed by Hubert and Arabie (1985) as an evaluation measure.
-
-
-Umass also uses
-Word Context Relevance (WCR)
-Turk bootstrap Word Sense Inventory (TWSI) but cheat by making all senses occur equal number of times
-
-Evaluation metrics
-Jaccard Index, Tau and WNDCG
-Fuzzy NMI and Fuzzy B-Cubed
-
-
-once you have a cluster, average to get an embedding
-
-
-hannah's netid: hll5
+There are two hardcoded file paths in the `sage.py` script but they should be easy to spot and change if necessary.

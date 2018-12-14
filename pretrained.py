@@ -12,7 +12,6 @@ class ExtractEmbeddings():
 			embeddings=np.zeros([numwords,dim])
 			for line in f:
 				wrd=line.split(' ',1)[0]
-				print(wrd)
 				if wrd in desiredwords:
 					ind=desiredwords.index(wrd)
 					found[ind]=1
@@ -36,3 +35,7 @@ if __name__ == "__main__":
 	print(len(embed[1,:]))
 	print(len(embed[2,:]))
 	print(example.found)
+
+	# TO TEST: (1) get word sense embeddings from clustering
+	#          (2) use + word2vec to get context embeddings from above
+	#          (3) find closest vector from word sense embeddings on target word, to context embedding 
